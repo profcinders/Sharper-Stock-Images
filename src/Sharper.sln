@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharper.StockImages", "Sharper.StockImages\Sharper.StockImages.csproj", "{A0D69EE3-4A83-44A6-8CE2-0B9522072985}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharper.StockImages.Test", "Sharper.StockImages.Test\Sharper.StockImages.Test.csproj", "{1398766F-3C47-411A-82ED-BE5476FFDFE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0D69EE3-4A83-44A6-8CE2-0B9522072985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0D69EE3-4A83-44A6-8CE2-0B9522072985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0D69EE3-4A83-44A6-8CE2-0B9522072985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0D69EE3-4A83-44A6-8CE2-0B9522072985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1398766F-3C47-411A-82ED-BE5476FFDFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1398766F-3C47-411A-82ED-BE5476FFDFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1398766F-3C47-411A-82ED-BE5476FFDFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1398766F-3C47-411A-82ED-BE5476FFDFE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4F7B5FA-EBA6-4EBF-8059-2FE3DF4F46FC}
+	EndGlobalSection
+EndGlobal

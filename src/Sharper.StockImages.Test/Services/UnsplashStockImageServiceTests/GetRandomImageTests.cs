@@ -12,12 +12,12 @@ using Xunit;
 
 namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
 {
-    public class GetImageTests : IDisposable
+    public class GetRandomImageTests : IDisposable
     {
         private readonly Mock<HttpMessageHandler> mockedHttpHandler;
         private readonly UnsplashStockImageService unsplashService;
 
-        public GetImageTests()
+        public GetRandomImageTests()
         {
             mockedHttpHandler = new Mock<HttpMessageHandler>();
             var client = new HttpClient(mockedHttpHandler.Object);
@@ -31,7 +31,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
             var iService = unsplashService as IStockImageService;
 
             // Act
-            iService.GetImage();
+            iService.GetRandomImage();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
                 .ReturnsAsync(GetBasicResponse);
 
             // Act
-            var stockImage = await unsplashService.GetImage();
+            var stockImage = await unsplashService.GetRandomImage();
 
             // Assert
             Assert.NotNull(stockImage);
@@ -61,7 +61,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
                 .ReturnsAsync(GetBasicResponse);
 
             // Act
-            var stockImage = await unsplashService.GetImage();
+            var stockImage = await unsplashService.GetRandomImage();
 
             // Assert
             Assert.NotNull(stockImage);
@@ -78,7 +78,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
                 .ReturnsAsync(GetBasicResponse);
 
             // Act
-            await unsplashService.GetImage();
+            await unsplashService.GetRandomImage();
 
             // Assert
             mockedHttpHandler.Protected().Verify("SendAsync", Times.AtLeastOnce(),

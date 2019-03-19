@@ -31,7 +31,7 @@ namespace Sharper.StockImages.Services
             HttpClient.DefaultRequestHeaders.Add("Accept-Version", "v1");
         }
 
-        public virtual async Task<StockImageModel> GetImage()
+        public virtual async Task<StockImageModel> GetRandomImage()
         {
             var response = await HttpClient.GetAsync("/photos/random");
             if (!response.IsSuccessStatusCode)

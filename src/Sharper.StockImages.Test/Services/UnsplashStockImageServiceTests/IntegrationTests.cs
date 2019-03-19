@@ -20,7 +20,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
         public async Task GetsImage()
         {
             // Act
-            var image = await unsplashService.GetImage();
+            var image = await unsplashService.GetRandomImage();
 
             // Assert
             Assert.NotNull(image);

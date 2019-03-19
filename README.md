@@ -1,5 +1,7 @@
 # Sharper.StockImages
 
+[![NuGet Badge](https://buildstats.info/nuget/Sharper.StockImages?includePreReleases=true)](https://www.nuget.org/packages/Sharper.StockImages/)
+
 A basic package that allows stock image services to be searched, and images from them to be downloaded.
 
 In its current state, it simply pulls a random image from the [Unsplash API](https://unsplash.com/developers). To use it yourself, clone the repo and replace "`XXXXXXXX`" with your Unsplash API Client Key [on line 30 of the UnsplashStockImageService class file](src/Sharper.StockImages/Services/UnsplashStockImageService.cs#L30). You can sign up for a key [here](https://unsplash.com/join).
@@ -23,5 +25,5 @@ The `StockImageModel` contains several other helpful properties, such as a link 
 
 - [ ] [Unsplash](https://unsplash.com/) service **(IN PROGRESS)**
 - [ ] Interface to allow additional services to be added **(IN PROGRESS)**
-- [x] Nuget package [![NuGet Badge]https://buildstats.info/nuget/Sharper.StockImages?includePreReleases=true](https://www.nuget.org/packages/Sharper.StockImages/)
+- [x] Nuget package
 - [ ] Umbraco package

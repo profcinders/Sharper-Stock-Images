@@ -23,5 +23,7 @@
         public string CreatorName { get; set; }
 
         public string CreatorServiceUrl { get; set; }
+
+        public string ServiceId { get; set; }
     }
 }

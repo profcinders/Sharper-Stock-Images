@@ -75,7 +75,8 @@ namespace Sharper.StockImages.Services
                 ImageServiceUrl = unsplashModel.Links.Html,
                 CreatorUserName = unsplashModel.User.Username,
                 CreatorName = unsplashModel.User.Name,
-                CreatorServiceUrl = unsplashModel.User.Links.Html
+                CreatorServiceUrl = unsplashModel.User.Links.Html,
+                ServiceId = Id
             };
         }
     }

@@ -47,8 +47,25 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
             var stockImage = await unsplashService.GetImage();
 
             // Assert
-            Assert.IsAssignableFrom<StockImageModel>(stockImage);
             Assert.NotNull(stockImage);
+            Assert.IsAssignableFrom<StockImageModel>(stockImage);
+        }
+
+        [Fact]
+        public async Task ReturnedModelHasServiceReference()
+        {
+            // Arrange
+            mockedHttpHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(GetBasicResponse);
+
+            // Act
+            var stockImage = await unsplashService.GetImage();
+
+            // Assert
+            Assert.NotNull(stockImage);
+            Assert.Equal(unsplashService.Id, stockImage.ServiceId);
         }
 
         [Fact]

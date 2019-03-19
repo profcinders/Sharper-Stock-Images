@@ -14,7 +14,7 @@ To get the URL for a random image:
 public async Task<string> GetRandomImageUrl()
 {
     UnsplashStockImageService stockService = new UnsplashStockImageService();
-    StockImageModel imageDetails = await stockService.GetImage();
+    StockImageModel imageDetails = await stockService.GetRandomImage();
     return imageDetails.ImageEmbedUrl;
 }
 ```

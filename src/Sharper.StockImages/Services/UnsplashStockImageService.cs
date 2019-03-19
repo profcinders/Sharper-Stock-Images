@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -14,20 +16,24 @@ namespace Sharper.StockImages.Services
         public virtual string Id => "Sharper Unsplash Service v1";
 
         protected readonly HttpClient HttpClient;
+        protected readonly NameValueCollection AppSettings;
 
         protected readonly string BaseUri = "https://api.unsplash.com/";
 
-        public UnsplashStockImageService() : this(new HttpClient())
+        public UnsplashStockImageService() : this(new HttpClient(), ConfigurationManager.AppSettings)
         {
         }
 
-        public UnsplashStockImageService(HttpClient httpClient)
+        public UnsplashStockImageService(HttpClient httpClient, NameValueCollection settings)
         {
+            AppSettings = settings ?? throw new ArgumentNullException(nameof(settings));
+
             HttpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             HttpClient.BaseAddress = new Uri(BaseUri);
             HttpClient.DefaultRequestHeaders.Accept.Clear();
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Client-ID", "XXXXXXXX"); // TODO: Pass this in from somewhere
+            HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Client-ID", AppSettings[Constants.Settings.UnsplashClientId]);
             HttpClient.DefaultRequestHeaders.Add("Accept-Version", "v1");
         }
 

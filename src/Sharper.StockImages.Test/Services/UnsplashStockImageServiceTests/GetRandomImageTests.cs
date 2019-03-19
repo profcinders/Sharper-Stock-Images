@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -21,7 +22,8 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
         {
             mockedHttpHandler = new Mock<HttpMessageHandler>();
             var client = new HttpClient(mockedHttpHandler.Object);
-            unsplashService = new UnsplashStockImageService(client);
+            var settings = new NameValueCollection();
+            unsplashService = new UnsplashStockImageService(client, settings);
         }
 
         [Fact]

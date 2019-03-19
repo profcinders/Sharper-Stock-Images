@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Sharper.StockImages.Models;
 using Sharper.StockImages.Services;
@@ -13,7 +15,8 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
 
         public IntegrationTests()
         {
-            unsplashService = new UnsplashStockImageService();
+            unsplashService = new UnsplashStockImageService(new HttpClient(),
+                new NameValueCollection { { Constants.Settings.UnsplashClientId, "XXXXXXXX" } });
         }
 
         [Fact(Skip = "Integration test")]

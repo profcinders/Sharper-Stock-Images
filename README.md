@@ -4,7 +4,15 @@
 
 A basic package that allows stock image services to be searched, and images from them to be downloaded.
 
-In its current state, it simply pulls a random image from the [Unsplash API](https://unsplash.com/developers). To use it yourself, clone the repo and replace "`XXXXXXXX`" with your Unsplash API Client Key [on line 30 of the UnsplashStockImageService class file](src/Sharper.StockImages/Services/UnsplashStockImageService.cs#L30). You can sign up for a key [here](https://unsplash.com/join).
+In its current state, it simply pulls a random image from the [Unsplash API](https://unsplash.com/developers). To use it yourself, install the [nuget package](https://www.nuget.org/packages/Sharper.StockImages/) and add your Unsplash API Client Key to your `web.config` or `app.config` file (see code below). You can sign up for a key [here](https://unsplash.com/join).
+
+```xml
+<configuration>
+  <appSettings>
+    <add key="Sharper.StockImages.Unsplash.ClientId" value="YOUR_UNSPLASH_CLIENT_ID_GOES_HERE" />
+  </appSettings>
+</configuration>
+```
 
 ## Usage
 

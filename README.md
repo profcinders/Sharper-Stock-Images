@@ -23,5 +23,5 @@ The `StockImageModel` contains several other helpful properties, such as a link 
 
 - [ ] [Unsplash](https://unsplash.com/) service **(IN PROGRESS)**
 - [ ] Interface to allow additional services to be added **(IN PROGRESS)**
-- [ ] Nuget package
+- [x] Nuget package [![NuGet Badge]https://buildstats.info/nuget/Sharper.StockImages?includePreReleases=true](https://www.nuget.org/packages/Sharper.StockImages/)
 - [ ] Umbraco package

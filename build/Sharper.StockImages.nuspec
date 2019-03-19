@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Sharper.StockImages</id>
+    <version>0.1.0-beta</version>
+    <authors>Sharper Pencil</authors>
+    <owners>Sharper Pencil</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/profcinders/Sharper-Stock-Images</projectUrl>
+    <!-- <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A basic package that allows stock image services to be searched, and images from them to be downloaded.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Stock Image</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.Client" version="[5.2.7,6.0.0)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\Sharper.StockImages\bin\Release\Sharper.StockImages.dll" target="lib\net472"></file>
+  </files>
+</package>

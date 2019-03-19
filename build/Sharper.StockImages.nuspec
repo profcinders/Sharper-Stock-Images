@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Sharper.StockImages</id>
-    <version>0.1.0-beta</version>
+    <version>0.1.1-beta</version>
     <authors>Sharper Pencil</authors>
     <owners>Sharper Pencil</owners>
     <license type="expression">MIT</license>

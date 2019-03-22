@@ -12,12 +12,12 @@ using Xunit;
 
 namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
 {
-    public class GetRandomImageTests : IDisposable
+    public class GetImageTests : IDisposable
     {
         private readonly Mock<HttpMessageHandler> mockedHttpHandler;
         private readonly UnsplashStockImageService unsplashService;
 
-        public GetRandomImageTests()
+        public GetImageTests()
         {
             mockedHttpHandler = new Mock<HttpMessageHandler>();
             var client = new HttpClient(mockedHttpHandler.Object);
@@ -33,7 +33,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
             var iService = unsplashService as IStockImageService;
 
             // Act
-            await iService.GetRandomImage();
+            await iService.GetImage("");
         }
 
         [Fact]
@@ -43,40 +43,44 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
             ArrangeHttpHandler(new UnsplashImageResponse());
 
             // Act
-            var stockImage = await unsplashService.GetRandomImage();
+            var image = await unsplashService.GetImage("");
 
             // Assert
-            Assert.NotNull(stockImage);
-            Assert.IsAssignableFrom<StockImageModel>(stockImage);
+            Assert.NotNull(image);
+            Assert.IsAssignableFrom<StockImageModel>(image);
         }
 
-        [Fact]
-        public async Task ReturnedModelHasServiceReference()
+        [Theory]
+        [InlineData("XXXXXXXX")]
+        [InlineData("1234567890")]
+        public async Task ReturnsCorrectId(string id)
         {
             // Arrange
-            ArrangeHttpHandler(new UnsplashImageResponse());
+            ArrangeHttpHandler(new UnsplashImageResponse().WithId(id));
 
             // Act
-            var stockImage = await unsplashService.GetRandomImage();
+            var image = await unsplashService.GetImage(id);
 
             // Assert
-            Assert.NotNull(stockImage);
-            Assert.Equal(unsplashService.Id, stockImage.ServiceId);
+            Assert.NotNull(image);
+            Assert.Equal(id, image.Id);
         }
 
-        [Fact]
-        public async Task CallsUnsplashRandomPhotoEndpoint()
+        [Theory]
+        [InlineData("XXXXXXXX")]
+        [InlineData("1234567890")]
+        public async Task CallsUnsplashPhotoEndpoint(string id)
         {
             // Arrange
-            ArrangeHttpHandler(new UnsplashImageResponse());
+            ArrangeHttpHandler(new UnsplashImageResponse().WithId(id));
 
             // Act
-            await unsplashService.GetRandomImage();
+            await unsplashService.GetImage(id);
 
             // Assert
-            mockedHttpHandler.Protected().Verify("SendAsync", Times.Once(),
+            mockedHttpHandler.Protected().Verify("SendAsync", Times.AtLeastOnce(),
                 ItExpr.Is<HttpRequestMessage>(req =>
-                    req.Method == HttpMethod.Get && req.RequestUri.PathAndQuery == "/photos/random"),
+                    req.Method == HttpMethod.Get && req.RequestUri.PathAndQuery == $"/photos/{id}"),
                 ItExpr.IsAny<CancellationToken>());
         }
 

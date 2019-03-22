@@ -49,6 +49,18 @@ namespace Sharper.StockImages.Services
             return await DeserializeImageResponse(response);
         }
 
+        public virtual async Task<StockImageModel> GetImage(string id)
+        {
+            var response = await HttpClient.GetAsync($"/photos/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                // TODO: Error handling
+                return null;
+            }
+
+            return await DeserializeImageResponse(response);
+        }
+
         public virtual void Dispose()
         {
             HttpClient.Dispose();

@@ -41,7 +41,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
         }
 
         [Fact]
-        public void TakesHttpClientAndSettingsCollection()
+        public void AcceptsHttpClientAndSettingsCollection()
         {
             // Arrange
             var client = new HttpClient();

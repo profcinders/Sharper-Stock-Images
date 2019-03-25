@@ -13,7 +13,9 @@ namespace Sharper.StockImages.Services
 {
     public class UnsplashStockImageService : IStockImageService, IDisposable
     {
-        public virtual string Id => "Sharper Unsplash Service v1";
+        public const string UniqueId = "Sharper Unsplash Service v1";
+
+        public virtual string Id => UniqueId;
 
         protected readonly HttpClient HttpClient;
         protected readonly NameValueCollection AppSettings;

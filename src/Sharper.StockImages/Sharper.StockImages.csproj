@@ -48,11 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DisableServiceAttribute.cs" />
     <Compile Include="Constants\Settings.cs" />
+    <Compile Include="Extensions\DistinctByExtensions.cs" />
     <Compile Include="Models\StockImageModel.cs" />
     <Compile Include="Models\UnsplashImageModel.cs" />
     <Compile Include="Models\UnsplashUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\StockImageProvider.cs" />
     <Compile Include="Services\IStockImageService.cs" />
     <Compile Include="Services\UnsplashStockImageService.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 # Sharper.StockImages
 
-[![NuGet Badge](https://buildstats.info/nuget/Sharper.StockImages?includePreReleases=true)](https://www.nuget.org/packages/Sharper.StockImages/)
+[![Sharper.StockImages nuget package](https://buildstats.info/nuget/Sharper.StockImages?includePreReleases=true "Sharper.StockImages nuget package")](https://www.nuget.org/packages/Sharper.StockImages/)
 
 A basic package that allows stock image services to be searched, and images from them to be downloaded.
 
@@ -27,7 +27,18 @@ public async Task<string> GetRandomImageUrl()
 }
 ```
 
-The `StockImageModel` contains several other helpful properties, such as a link to the image on Unsplash (`ImageServiceUrl`) and attribution to the original photographer (`CreatorUserName`, `CreatorName`, and `CreatorServiceUrl`).
+And to get the URL for a specific image:
+
+```c#
+public async Task<string> GetImageUrl(string id)
+{
+    UnsplashStockImageService stockService = new UnsplashStockImageService();
+    StockImageModel imageDetails = await stockService.GetImage(id);
+    return imageDetails.ImageEmbedUrl;
+}
+```
+
+The `StockImageModel` contains several helpful properties in addition to `ImageEmbedUrl` in the code samples, such as a link to the image on Unsplash (`ImageServiceUrl`) and attribution to the original photographer (`CreatorUserName`, `CreatorName`, and `CreatorServiceUrl`).
 
 ## Features
 

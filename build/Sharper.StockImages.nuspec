@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Sharper.StockImages</id>
-    <version>0.1.1-beta</version>
+    <version>0.1.2-beta</version>
     <authors>Sharper Pencil</authors>
     <owners>Sharper Pencil</owners>
     <license type="expression">MIT</license>
@@ -15,6 +15,7 @@
     <tags>Stock Image</tags>
     <dependencies>
       <dependency id="Microsoft.AspNet.WebApi.Client" version="[5.2.7,6.0.0)" />
+      <dependency id="Newtonsoft.Json" version="[9.0.1,)" />
     </dependencies>
   </metadata>
   <files>

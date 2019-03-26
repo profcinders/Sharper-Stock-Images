@@ -26,14 +26,10 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
         }
 
         [Fact]
-        public async Task InheritsFromInterface()
+        public void RandomImagesEnabled()
         {
-            // Arrange
-            ArrangeHttpHandler(new UnsplashImageResponse());
-            var iService = unsplashService as IStockImageService;
-
-            // Act
-            await iService.GetRandomImage();
+            // Assert
+            Assert.True(unsplashService.RandomImageEnabled);
         }
 
         [Fact]

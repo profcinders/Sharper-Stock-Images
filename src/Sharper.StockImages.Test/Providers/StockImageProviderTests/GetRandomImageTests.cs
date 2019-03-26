@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Moq;
+using Sharper.StockImages.Exceptions;
 using Sharper.StockImages.Models;
 using Sharper.StockImages.Providers;
 using Sharper.StockImages.Services;
@@ -24,6 +25,7 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync(new StockImageModel());
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
 
             // Act
             var stockImage = await provider.GetRandomImage();
@@ -37,6 +39,7 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
             var random = Mock.Of<Random>(r => r.Next(It.IsAny<int>()) == 0);
 
             // Act
@@ -51,6 +54,7 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
 
             // Act
             await provider.GetRandomImage();
@@ -65,12 +69,51 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
             // Arrange
             const string id = "XXXXXXXX";
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync(new StockImageModel { Id = id });
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
 
             // Act
             var stockImage = await provider.GetRandomImage();
 
             // Assert
             Assert.Equal(id, stockImage.Id);
+        }
+
+        [Fact]
+        public async Task OnlyCallsServicesWithRandomEnabled()
+        {
+            // Arrange
+            mockedService.Setup(s => s.Id).Returns("1");
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
+            mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
+            var randomDisabledService = new Mock<IStockImageService>();
+            randomDisabledService.Setup(s => s.Id).Returns("2");
+            randomDisabledService.Setup(s => s.RandomImageEnabled).Returns(false);
+            randomDisabledService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
+            var random = Mock.Of<Random>(r => r.Next(It.IsAny<int>()) == 0);
+            var randomProvider = new StockImageProvider(randomDisabledService.Object, mockedService.Object);
+
+            // Act
+            await randomProvider.GetRandomImage(random);
+
+            // Assert
+            mockedService.Verify(s => s.GetRandomImage(), Times.Once);
+            randomDisabledService.Verify(s => s.GetRandomImage(), Times.Never);
+        }
+
+        [Fact]
+        public void ThrowsWhenNoValidService()
+        {
+            // Arrange
+            var emptyProvider = new StockImageProvider(new IStockImageService[] { });
+
+            // Act
+            var exception = Record.ExceptionAsync(async () => await emptyProvider.GetRandomImage());
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.NotNull(exception.Result);
+            Assert.IsAssignableFrom<NoValidServiceException>(exception.Result);
+            Assert.Equal("No available services support random images.", exception.Result.Message);
         }
     }
 }

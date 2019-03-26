@@ -17,6 +17,8 @@ namespace Sharper.StockImages.Services
 
         public virtual string Id => UniqueId;
 
+        public virtual bool RandomImageEnabled => true;
+
         protected readonly HttpClient HttpClient;
         protected readonly NameValueCollection AppSettings;
 

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DisableServiceAttribute.cs" />
     <Compile Include="Constants\Settings.cs" />
+    <Compile Include="Exceptions\NoValidServiceException.cs" />
     <Compile Include="Extensions\DistinctByExtensions.cs" />
     <Compile Include="Models\StockImageModel.cs" />
     <Compile Include="Models\UnsplashImageModel.cs" />

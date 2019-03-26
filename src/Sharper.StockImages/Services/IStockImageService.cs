@@ -7,6 +7,8 @@ namespace Sharper.StockImages.Services
     {
         string Id { get; }
 
+        bool RandomImageEnabled { get; }
+
         Task<StockImageModel> GetRandomImage();
 
         Task<StockImageModel> GetImage(string id);

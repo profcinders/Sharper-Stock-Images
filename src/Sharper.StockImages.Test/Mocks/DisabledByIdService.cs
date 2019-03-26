@@ -10,6 +10,8 @@ namespace Sharper.StockImages.Test.Mocks
 
         public string Id => UniqueId;
 
+        public bool RandomImageEnabled => false;
+
         public Task<StockImageModel> GetRandomImage()
         {
             throw new System.NotImplementedException();

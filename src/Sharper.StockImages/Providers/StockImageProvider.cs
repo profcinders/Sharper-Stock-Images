@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Sharper.StockImages.Attributes;
+using Sharper.StockImages.Exceptions;
 using Sharper.StockImages.Extensions;
 using Sharper.StockImages.Models;
 using Sharper.StockImages.Services;
@@ -34,8 +35,14 @@ namespace Sharper.StockImages.Providers
         public async Task<StockImageModel> GetRandomImage(Random random = null)
         {
             random = random ?? new Random();
-            var index = random.Next(services.Count);
-            var randomService = services[index];
+            var supportedServices = services.Where(s => s.RandomImageEnabled).ToList();
+            if (supportedServices.Count == 0)
+            {
+                throw new NoValidServiceException("No available services support random images.");
+            }
+
+            var index = random.Next(supportedServices.Count);
+            var randomService = supportedServices[index];
             return await randomService.GetRandomImage();
         }
 

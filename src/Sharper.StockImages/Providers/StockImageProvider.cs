@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Sharper.StockImages.Attributes;
 using Sharper.StockImages.Extensions;
+using Sharper.StockImages.Models;
 using Sharper.StockImages.Services;
 
 namespace Sharper.StockImages.Providers
@@ -17,7 +19,7 @@ namespace Sharper.StockImages.Providers
         public StockImageProvider()
         {
             services = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-                .Where(t => typeof(IStockImageService).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract)
+                .Where(t => typeof(IStockImageService).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && t.Namespace != "Castle.Proxies")
                 .Select(InstantiateService)
                 .DistinctBy(s => s.Id).ToList();
 
@@ -27,6 +29,14 @@ namespace Sharper.StockImages.Providers
         public StockImageProvider(params IStockImageService[] services)
         {
             this.services = services.DistinctBy(s => s.Id).ToList();
+        }
+
+        public async Task<StockImageModel> GetRandomImage(Random random = null)
+        {
+            random = random ?? new Random();
+            var index = random.Next(services.Count);
+            var randomService = services[index];
+            return await randomService.GetRandomImage();
         }
 
         protected void RemoveDisabledServices()

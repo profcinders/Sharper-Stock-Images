@@ -79,6 +79,7 @@
     <Compile Include="Mocks\DisablingByIdService.cs" />
     <Compile Include="Mocks\UnsplashImageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\StockImageProviderTests\GetRandomImageTests.cs" />
     <Compile Include="Providers\StockImageProviderTests\StockImageProviderTests.cs" />
     <Compile Include="Services\UnsplashStockImageServiceTests\GetImageTests.cs" />
     <Compile Include="Services\UnsplashStockImageServiceTests\GetRandomImageTests.cs" />

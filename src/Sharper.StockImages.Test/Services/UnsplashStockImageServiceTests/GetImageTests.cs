@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
+using Sharper.StockImages.Exceptions;
 using Sharper.StockImages.Models;
 using Sharper.StockImages.Services;
 using Sharper.StockImages.Test.Mocks;
@@ -82,6 +84,26 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
                 ItExpr.Is<HttpRequestMessage>(req =>
                     req.Method == HttpMethod.Get && req.RequestUri.PathAndQuery == $"/photos/{id}"),
                 ItExpr.IsAny<CancellationToken>());
+        }
+
+        [Fact]
+        public void ThrowsWhenImageNotFound()
+        {
+            // Arrange
+            mockedHttpHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage(HttpStatusCode.NotFound));
+            const string id = "";
+
+            // Act
+            var exception = Record.ExceptionAsync(async () => await unsplashService.GetImage(id));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.NotNull(exception.Result);
+            Assert.IsAssignableFrom<ImageNotFoundException>(exception.Result);
+            Assert.Equal(id, (exception.Result as ImageNotFoundException)?.ImageId);
         }
 
         public void Dispose()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Net.Http;
@@ -6,7 +7,9 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Sharper.StockImages.Exceptions;
 using Sharper.StockImages.Models;
 
 namespace Sharper.StockImages.Services
@@ -46,8 +49,12 @@ namespace Sharper.StockImages.Services
             var response = await HttpClient.GetAsync("/photos/random");
             if (!response.IsSuccessStatusCode)
             {
-                // TODO: Error handling
-                return null;
+                throw new ImageNotFoundException
+                {
+                    ServiceErrors = response.Content == null
+                        ? null
+                        : ParseErrors(await response.Content.ReadAsStringAsync())
+                };
             }
 
             return await DeserializeImageResponse(response);
@@ -58,8 +65,13 @@ namespace Sharper.StockImages.Services
             var response = await HttpClient.GetAsync($"/photos/{id}");
             if (!response.IsSuccessStatusCode)
             {
-                // TODO: Error handling
-                return null;
+                throw new ImageNotFoundException
+                {
+                    ImageId = id,
+                    ServiceErrors = response.Content == null
+                        ? null
+                        : ParseErrors(await response.Content.ReadAsStringAsync())
+                };
             }
 
             return await DeserializeImageResponse(response);
@@ -100,6 +112,12 @@ namespace Sharper.StockImages.Services
                 CreatorServiceUrl = unsplashModel.User.Links.Html,
                 ServiceId = Id
             };
+        }
+
+        protected virtual string[] ParseErrors(string json)
+        {
+            dynamic obj = JObject.Parse(json);
+            return obj.errors?.ToObject<string[]>();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Moq.Protected;
+using Sharper.StockImages.Exceptions;
 using Sharper.StockImages.Models;
 using Sharper.StockImages.Services;
 using Sharper.StockImages.Test.Mocks;
@@ -76,6 +78,24 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
                 ItExpr.IsAny<CancellationToken>());
         }
 
+        [Fact]
+        public void ThrowsWhenImageNotFound()
+        {
+            // Arrange
+            mockedHttpHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => new HttpResponseMessage(HttpStatusCode.NotFound));
+
+            // Act
+            var exception = Record.ExceptionAsync(async () => await unsplashService.GetRandomImage());
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.NotNull(exception.Result);
+            Assert.IsAssignableFrom<ImageNotFoundException>(exception.Result);
+        }
+
         public void Dispose()
         {
             unsplashService.Dispose();
@@ -86,7 +106,7 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
             mockedHttpHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(() => response.ToResponseMessage());
+                .ReturnsAsync(response.ToResponseMessage);
         }
     }
 }

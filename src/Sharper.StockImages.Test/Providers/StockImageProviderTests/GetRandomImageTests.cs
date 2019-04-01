@@ -17,6 +17,7 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         public GetRandomImageTests()
         {
             mockedService = new Mock<IStockImageService>();
+            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
             provider = new StockImageProvider(mockedService.Object);
         }
 
@@ -25,7 +26,6 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync(new StockImageModel());
-            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
 
             // Act
             var stockImage = await provider.GetRandomImage();
@@ -39,7 +39,6 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
-            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
             var random = Mock.Of<Random>(r => r.Next(It.IsAny<int>()) == 0);
 
             // Act
@@ -54,7 +53,6 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
-            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
 
             // Act
             await provider.GetRandomImage();
@@ -68,14 +66,15 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             const string id = "XXXXXXXX";
-            mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync(new StockImageModel { Id = id });
-            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
+            var model = new StockImageModel { Id = id };
+            mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync(model);
 
             // Act
             var stockImage = await provider.GetRandomImage();
 
             // Assert
             Assert.Equal(id, stockImage.Id);
+            Assert.Same(model, stockImage);
         }
 
         [Fact]
@@ -83,7 +82,6 @@ namespace Sharper.StockImages.Test.Providers.StockImageProviderTests
         {
             // Arrange
             mockedService.Setup(s => s.Id).Returns("1");
-            mockedService.Setup(s => s.RandomImageEnabled).Returns(true);
             mockedService.Setup(s => s.GetRandomImage()).ReturnsAsync((StockImageModel) null);
             var randomDisabledService = new Mock<IStockImageService>();
             randomDisabledService.Setup(s => s.Id).Returns("2");

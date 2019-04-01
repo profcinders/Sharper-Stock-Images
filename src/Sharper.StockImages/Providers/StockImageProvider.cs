@@ -46,6 +46,14 @@ namespace Sharper.StockImages.Providers
             return await randomService.GetRandomImage();
         }
 
+        public async Task<StockImageModel> GetImage(string imageId, string serviceId)
+        {
+            var service = services.FirstOrDefault(s => s.Id == serviceId) ??
+                          throw new NoValidServiceException($@"The ""{serviceId}"" service was not available.");
+
+            return await service.GetImage(imageId);
+        }
+
         protected void RemoveDisabledServices()
         {
             var disablingAttributes =

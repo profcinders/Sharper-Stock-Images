@@ -28,17 +28,6 @@ namespace Sharper.StockImages.Test.Services.UnsplashStockImageServiceTests
         }
 
         [Fact]
-        public async Task InheritsFromInterface()
-        {
-            // Arrange
-            ArrangeHttpHandler(new UnsplashImageResponse());
-            var iService = unsplashService as IStockImageService;
-
-            // Act
-            await iService.GetImage("");
-        }
-
-        [Fact]
         public async Task ReturnsStockImageModel()
         {
             // Arrange
